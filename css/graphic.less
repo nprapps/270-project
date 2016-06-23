@@ -1,0 +1,155 @@
+@import "base";
+
+// Add custom styles here
+.container {
+    font: 14px/1.4 Helvetica,Arial,sans-serif;
+    max-width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    font: 14px/1.4 Helvetica,Arial,sans-serif;
+    td {
+        padding: 2px 0;
+        font-weight: 300;
+        min-width: 2rem;
+        border: 1px solid #fff;
+
+    }
+    tbody {
+        th {
+            text-align: left;
+            padding-left: 3px;
+            padding-top: 2px;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+        }
+        td {
+            font-size: 9px;
+            padding: 5px;
+            color: #fff;
+            text-align: center;
+            &.gop {
+                background-color: rgba(200, 0, 0, 1);
+                &.margin-0, &.margin-1 {
+                    background-color: rgba(200, 0, 0, 0.6);
+                }
+                &.margin-2, &.margin-3 {
+                    background-color: rgba(200, 0, 0, 0.8);
+                }
+            }
+            &.dem {
+                background-color: rgba(0, 0, 200, 1);
+                &.margin-0, &.margin-1 {
+                    background-color: rgba(0, 0, 200, 0.5);
+                }
+                &.margin-2, &.margin-3 {
+                    background-color: rgba(0, 0, 200, 0.7);
+                }
+            }
+        }
+    }
+}
+
+.table-controls{
+    float: left;
+    // clear: both;
+
+    .table-controls-wrapper.disabled {
+        pointer-events: none;
+        // color: #848484;
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #b0b0b0;
+        }
+    }
+
+    h3 {
+        margin: 15px 0px 5px 0px;
+        text-transform: capitalize;
+        text-align: left;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    .control-group {
+        margin: 0 0 0px 0;
+        min-width: 325px;
+        text-align: center;
+    }
+
+    .control-label {
+        display: block;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    input[type=range]{
+        -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        background: #ddd;
+        height: 3px;
+        border-radius: 3px;
+        border: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 12px;
+        background-color: #585858;
+        border-radius: 50%;
+        margin-top: -5px;
+    }
+    input[type=range]:focus {
+        outline: none;
+    }
+}
+
+.table-totals{
+    // float: left;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    min-width: 30%;
+    text-align: center;
+
+    p {
+        font-size: 45px;
+        font-family: Helvetica,Arial,sans-serif;
+        margin: 0 auto 15px auto;
+    }
+
+    div.gop {
+        // float: left;
+        max-width: 160px;
+        display: inline-block;
+        margin-right: 50px;
+        span {
+            color: rgba(200, 0, 0, 1);
+        }
+    }
+
+    div.dem {
+        // float: left;
+        max-width: 160px;
+        display: inline-block;
+        span {
+            color: rgba(0, 0, 200, 1);
+        }
+    }
+
+    span.winner {
+        font-weight: bold;
+    }
+}
+
+.table-details {
+    float: left;
+    margin-left: 60px;
+}

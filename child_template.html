@@ -1,0 +1,86 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+
+    {% if COPY.labels.headline %}<h1>{{ COPY.labels.headline|smarty }}</h1>{% endif %}
+    {% if COPY.labels.subhed %}<h2>{{ render(COPY.labels.subhed)|smarty }}</h2>{% endif %}
+
+    <div id="graphic" class="graphic">
+        <img src="fallback.png" alt="[Chart]" class="fallback" />
+        <div class="container clearfix">
+            <div id="table-totals" class="table-totals"></div>
+            <div id="table-controls" class="table-controls"></div>
+            <div id="table-details" class="table-details"></div>
+        </div>
+    </div>
+
+    {% if COPY.labels.footnote %}
+    <div class="footnotes">
+        <h4>Notes</h4>
+        <p>{{ COPY.labels.footnote|smarty }}</p>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        {% if COPY.labels.source %}<p>Source: {{ COPY.labels.source|smarty }}</p>{% endif %}
+        {% if COPY.labels.credit %}<p>Credit: {{ COPY.labels.credit|smarty }}</p>{% endif %}
+    </div>
+
+{% endblock content %}
+
+{% block extra_foot_js %}
+{% raw %}
+<script id="margin-table-template" type="text/ractive">
+<table>
+    <tbody>
+        {{#each rows}}
+        <tr>
+            {{#this}}
+            <td class="{{winnerClass}} {{marginClass}}" data-tooltip="{{margin}}%">
+            {{margin}}%
+            </td>
+            {{/this}}
+            <th>{{@key}}</th>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</script>
+<script id="results-template" type="text/ractive">
+    <div class="gop">
+        {{#electoralVotes}}
+            <p><span class="gop-votes {{#if this.gop > 270}}winner{{/if}}">{{gop}}</span></p>
+        {{/electoralVotes}}
+        <label for="" class="votes">GOP votes</label>
+    </div>
+    <div class="dem">
+        {{#electoralVotes}}
+            <p><span class="dem-votes {{#if this.dem > 270}}winner{{/if}}">{{dem}}</span></p>
+        {{/electoralVotes}}
+        <label for="" class="votes">DEM votes</label>
+    </div>
+</script>
+<script id="controls-template" type="text/ractive">
+<div class='table-controls-wrapper{{#if interactive}} disabled{{/if}}'>
+    {{#each adjustments}}
+        <h3>{{label}}</h3>
+        <div class="control-group {{@key}}-pct-group">
+            <span class="control-label">margin</span>
+            <span>{{#if pct === 0.0}}{{elseif pct < 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% DEM</span>
+            <input id="{{@key}}-pct" type="range" step="0.01" value="{{this.pct}}" min="-0.10" max="0.10">
+            <span>{{#if pct === 0.0}}{{elseif pct > 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% GOP</span>
+        </div>
+        <div class="control-group  {{@key}}-turnout-group">
+            <span class="control-label">turnout</span>
+            <input id="{{@key}}-turnout" type="range" step="0.01" value="{{this.turnout}}" min="-0.10" max="0.10">
+            <span>{{#if turnout > 0}}+{{/if}}{{(Math.abs(turnout * 100)).toFixed(0)}}%</span>
+    {{/each}}
+</div>
+</script>
+{% endraw %}
+{% endblock extra_foot_js%}
+
+
+
+
+
