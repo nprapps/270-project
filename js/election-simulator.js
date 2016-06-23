@@ -23,9 +23,34 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
         var adjustedGOPVotes = 0;
         var adjustedDemVotes = 0;
         var adjustedOtherVotes = 0;
-
+        console.log(row);
         _.each(row.demographics, function(demographic) {
-            var adjustment = adjustments.adjustments[demographic.demographic];
+            var adjustment = _.clone(adjustments.adjustments[demographic.demographic]);
+
+            // Florida hypothesis
+            // if ((adjustment.label == 'Hispanic') && (this.state != 'Florida')) {
+            //     adjustment = {pct: 0.0, turnout: 0.0};
+            // }
+
+            //Wisconsin hypothesis
+            // if (adjustment.label == 'White Men') {
+            //     if (this.state != 'Wisconsin') {
+            //         adjustment = {pct: 0.04, turnout: 0.02};
+            //     }
+            //     else {
+            //         adjustment.turnout = 0.02;
+            //     }
+            // }
+
+            // Michigan hypothesis
+            // if (adjustment.label == 'White Men') {
+            //     if (this.state != 'Michigan') {
+            //         adjustment = {pct: 0.04, turnout: 0.02};
+            //     }
+            //     else {
+            //         adjustment.turnout = 0.02;
+            //     }
+            // }
 
             var adjustedDemPct = demographic.d_pct - adjustment.pct;
             adjustedDemPct = (adjustedDemPct < 0) ? 0 : adjustedDemPct;
@@ -44,7 +69,7 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
             adjustedOtherVotes = Math.abs(demographic.r_pct - demographic.d_pct) * demographic.eligible_voters * demographic.turnout;
             adjustedGOPVotes += adjustedVotes * adjustedGOPPct;
             adjustedDemVotes += adjustedVotes * adjustedDemPct;
-        });
+        }, row);
 
         var adjustedTotalVotes = adjustedGOPVotes + adjustedDemVotes + adjustedOtherVotes;
         processedRow.demPct = adjustedDemVotes / adjustedTotalVotes;
@@ -144,7 +169,7 @@ ElectionSimulator.prototype.render = function() {
         });
 
         //Bind watchControl to the ElectionSimulator instance object
-        if (_self.ctrl_enabled) {
+        if (_self.interactive) {
             _self.controlsRactive.observe('*', _self.watchControl.bind(_self));
         }
 }

@@ -61,7 +61,7 @@
     </div>
 </script>
 <script id="controls-template" type="text/ractive">
-<div class='table-controls-wrapper{{#if interactive}} disabled{{/if}}'>
+<div class='table-controls-wrapper{{#unless interactive}} disabled{{/unless}}'>
     {{#each adjustments}}
         <h3>{{label}}</h3>
         <div class="control-group {{@key}}-pct-group">
@@ -73,7 +73,7 @@
         <div class="control-group  {{@key}}-turnout-group">
             <span class="control-label">turnout</span>
             <input id="{{@key}}-turnout" type="range" step="0.01" value="{{this.turnout}}" min="-0.10" max="0.10">
-            <span>{{#if turnout > 0}}+{{/if}}{{(Math.abs(turnout * 100)).toFixed(0)}}%</span>
+            <span>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</span>
     {{/each}}
 </div>
 </script>

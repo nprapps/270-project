@@ -35,8 +35,11 @@ var adjustments = {
     }
 };
 
+
+/*
+ * Update simulator initialization properties based on url params
+ */
 var UpdateInitVars = function(urlParams) {
-    debugger
 
     // Adjustments
     var adj = adjustments.adjustments;
