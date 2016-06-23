@@ -16,7 +16,7 @@ var urlparser = (function() {
                         result[item[0]] = eval(val);
                     }
                     else {
-                        result[item[0]] = c[1];
+                        result[item[0]] = val;
                     }
                 }
                 else {

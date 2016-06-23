@@ -23,7 +23,6 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
         var adjustedGOPVotes = 0;
         var adjustedDemVotes = 0;
         var adjustedOtherVotes = 0;
-        console.log(row);
         _.each(row.demographics, function(demographic) {
             var adjustment = adjustments.adjustments[demographic.demographic];
             // Hypothesis validation
