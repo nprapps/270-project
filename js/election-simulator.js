@@ -25,7 +25,9 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
         var adjustedOtherVotes = 0;
         console.log(row);
         _.each(row.demographics, function(demographic) {
-            var adjustment = _.clone(adjustments.adjustments[demographic.demographic]);
+            var adjustment = adjustments.adjustments[demographic.demographic];
+            // Hypothesis validation
+            // var adjustment = _.clone(adjustments.adjustments[demographic.demographic]);
 
             // Florida hypothesis
             // if ((adjustment.label == 'Hispanic') && (this.state != 'Florida')) {
