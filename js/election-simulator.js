@@ -26,50 +26,23 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
         var adjustedOtherVotes = 0;
         _.each(row.demographics, function(demographic) {
             var adjustment = adjustments.adjustments[demographic.demographic];
-            // Hypothesis validation
-            // var adjustment = _.clone(adjustments.adjustments[demographic.demographic]);
-
-            // Florida hypothesis
-            // if ((adjustment.label == 'Hispanic') && (this.state != 'Florida')) {
-            //     adjustment = {pct: 0.0, turnout: 0.0};
-            // }
-
-            //Wisconsin hypothesis
-            // if (adjustment.label == 'White Men') {
-            //     if (this.state != 'Wisconsin') {
-            //         adjustment = {pct: 0.04, turnout: 0.02};
-            //     }
-            //     else {
-            //         adjustment.turnout = 0.02;
-            //     }
-            // }
-
-            // Michigan hypothesis
-            // if (adjustment.label == 'White Men') {
-            //     if (this.state != 'Michigan') {
-            //         adjustment = {pct: 0.04, turnout: 0.02};
-            //     }
-            //     else {
-            //         adjustment.turnout = 0.02;
-            //     }
-            // }
 
             var adjustedDemPct = demographic.d_pct - adjustment.pct;
             adjustedDemPct = (adjustedDemPct < 0) ? 0 : adjustedDemPct;
             adjustedDemPct = (adjustedDemPct > 1) ? 1 : adjustedDemPct;
 
             var adjustedGOPPct = demographic.r_pct + adjustment.pct;
-            if ((adjustment.label == 'Hispanic') && (this.state == 'Florida')) {
-                console.log("Florida GopPerc: ", adjustedGOPPct);
-            }
+            // if ((adjustment.label == 'Hispanic') && (this.state == 'Florida')) {
+            //     console.log("Florida GopPerc: ", adjustedGOPPct);
+            // }
 
-            if ((adjustment.label == 'White Men') && (this.state == 'Wisconsin')) {
-                console.log("Wisconsin GopPerc: ", adjustedGOPPct);
-            }
+            // if ((adjustment.label == 'White Men') && (this.state == 'Wisconsin')) {
+            //     console.log("Wisconsin GopPerc: ", adjustedGOPPct);
+            // }
 
-            if ((adjustment.label == 'White Men') && (this.state == 'Michigan')) {
-                console.log("Michigan GopPerc: ", adjustedGOPPct);
-            }
+            // if ((adjustment.label == 'White Men') && (this.state == 'Michigan')) {
+            //     console.log("Michigan GopPerc: ", adjustedGOPPct);
+            // }
             adjustedGOPPct = (adjustedGOPPct < 0) ? 0 : adjustedGOPPct;
             adjustedGOPPct = (adjustedGOPPct > 1) ? 1 : adjustedGOPPct;
 
@@ -124,7 +97,7 @@ ElectionSimulator.prototype.getDetails = function(outcome) {
         outcomes[row[key]].push({
             winnerClass: winnerClass,
             marginClass: marginClass,
-            margin: marginPct.toFixed(1),
+            margin: marginPct.toFixed(2),
             // TODO: Remove after
             gopPct: gopPct.toFixed(1),
             electoralVotes: row.electoralVotes
@@ -193,8 +166,6 @@ ElectionSimulator.prototype.render = function(config) {
             template: '#margin-table-template',
             data: _self.getDetails(outcome)
         });
-
-        console.log(document.getElementById("table-totals").offsetWidth);
 
         //Bind watchControl to the ElectionSimulator instance object
         if (_self.interactive) {

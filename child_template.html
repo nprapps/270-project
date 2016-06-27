@@ -81,7 +81,7 @@
                     <span class="dem-slider-label {{#if this.pct < 0}}dem-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct < 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% DEM</span>
                 </div>
                 <div class="range-slider">
-                    <input id="{{@key}}-pct" type="range" step="0.01" value="{{this.pct}}" min="-0.10" max="0.10">
+                    <input id="{{@key}}-pct" type="range" step="0.01" value="{{this.pct}}" min="-0.20" max="0.20">
                 </div>
                 <div class="slider-label label-gop">
                     <span class="gop-slider-label {{#if this.pct > 0}}gop-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct > 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% GOP</span>

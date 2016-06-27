@@ -66,7 +66,6 @@ var UpdateInitVars = function(urlParams) {
     if (urlParams.interactive === false) {
         interactive = false;
     }
-    console.log(interactive);
 }
 
 
@@ -75,6 +74,8 @@ var UpdateInitVars = function(urlParams) {
  */
 var onWindowLoaded = function() {
     if (Modernizr.svg) {
+        // Disable DEBUG mode
+        Ractive.DEBUG = false;
         loadBaseData()
     } else {
         pymChild = new pym.Child({});
@@ -150,38 +151,6 @@ var render = function(containerWidth) {
 
 var renderSimulator = function(config) {
     simulator.render(config);
-}
-
-/*
- * Render a graphic.
- */
-var renderGraphic = function(config) {
-    var aspectWidth = 4;
-    var aspectHeight = 3;
-
-    var margins = {
-        top: 0,
-        right: 15,
-        bottom: 20,
-        left: 15
-    };
-
-    // Calculate actual chart dimensions
-    var chartWidth = config['width'] - margins['left'] - margins['right'];
-    var chartHeight = Math.ceil((config['width'] * aspectHeight) / aspectWidth) - margins['top'] - margins['bottom'];
-
-    // Clear existing graphic (for redraw)
-    var containerElement = d3.select(config['container']);
-    containerElement.html('');
-
-    // Create container
-    var chartElement = containerElement.append('svg')
-        .attr('width', chartWidth + margins['left'] + margins['right'])
-        .attr('height', chartHeight + margins['top'] + margins['bottom'])
-        .append('g')
-        .attr('transform', 'translate(' + margins['left'] + ',' + margins['top'] + ')');
-
-    // Draw here!
 }
 
 /*
