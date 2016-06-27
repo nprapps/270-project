@@ -35,6 +35,14 @@ var adjustments = {
     }
 };
 
+var formatData = function(data) {
+    var DATA = data.data;
+    _.each(DATA, function(row) {
+        row.state_usps = STATE_TO_USPS[row.state];
+    });
+    return DATA
+}
+
 
 /*
  * Update simulator initialization properties based on url params
@@ -55,8 +63,10 @@ var UpdateInitVars = function(urlParams) {
     adj.other.turnout = urlParams.ot || 0.0;
 
     // interactive
-    interactive = urlParams.interactive || true;
-
+    if (urlParams.interactive === false) {
+        interactive = false;
+    }
+    console.log(interactive);
 }
 
 
@@ -85,11 +95,10 @@ var onWindowLoaded = function() {
  */
 var loadBaseData = function() {
     d3.json(BASE_DATA_URL, function(error, data) {
-        baseData = data.data;
+        baseData = formatData(data);
         urlParams = urlparser.get();
         console.log(urlParams);
         UpdateInitVars(urlParams);
-        console.log(adjustments);
         createSimulator(baseData);
 
         pymChild = new pym.Child({
@@ -128,7 +137,8 @@ var render = function(containerWidth) {
     // Render the map!
     renderSimulator({
         container: '#graphic',
-        width: containerWidth
+        width: containerWidth,
+        isMobile: isMobile
     });
 
     // Update iframe
@@ -138,7 +148,7 @@ var render = function(containerWidth) {
 }
 
 var renderSimulator = function(config) {
-    simulator.render();
+    simulator.render(config);
 }
 
 /*

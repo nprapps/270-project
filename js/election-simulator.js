@@ -9,6 +9,7 @@ var ElectionSimulator = function(rslt_container, tab_container, ctrl_container, 
     _self.data = data;
     _self.tossUpStates = _.pluck(data, 'state');
     _self.usps_states = _.pluck(data, 'state_usps');
+    _self.isMobile = false;
 
 }
 
@@ -86,21 +87,29 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
     return processedData;
 }
 
-
 ElectionSimulator.prototype.getDetails = function(outcome) {
     var _self = this;
     var outcomes = {}
 
-    for(var i = 0; i < _self.tossUpStates.length; ++i) {
-        var state = _self.tossUpStates[i];
-        outcomes[state] = [];
+
+    if (_self.isMobile) {
+        var list = _self.usps_states;
+        var key = 'state_usps';
+    }
+    else {
+        var list = _self.tossUpStates;
+        var key = 'state';
+    }
+
+    for(var i = 0; i < list.length; ++i) {
+        outcomes[list[i]] = [];
     }
 
     _.each(outcome, function(row) {
         var marginPct = Math.abs(row.margin) * 100;
         var winnerClass = (row.margin > 0) ? 'gop' : 'dem';
         var marginClass = 'margin-' + marginPct.toFixed(0);
-        outcomes[row.state].push({
+        outcomes[row[key]].push({
             winnerClass: winnerClass,
             marginClass: marginClass,
             margin: marginPct.toFixed(1),
@@ -116,7 +125,7 @@ ElectionSimulator.prototype.getDetails = function(outcome) {
 ElectionSimulator.prototype.getTotals = function(outcome) {
     var _self = this;
 
-    var electoralVotes = {gop: 155, dem: 124};
+    var electoralVotes = {gop: 143, dem: 136};
     _.each(outcome, function(row) {
         var winnerClass = (row.margin > 0) ? 'gop' : 'dem';
         electoralVotes[winnerClass] += row.electoralVotes;
@@ -131,7 +140,8 @@ ElectionSimulator.prototype.getControls = function() {
     var _self = this;
     return {
         adjustments: _self.adjustments.adjustments,
-        interactive: _self.interactive
+        interactive: _self.interactive,
+        mobile: _self.isMobile
     }
 }
 
@@ -145,8 +155,9 @@ ElectionSimulator.prototype.watchControl = function(e) {
 
 }
 
-ElectionSimulator.prototype.render = function() {
+ElectionSimulator.prototype.render = function(config) {
         var _self = this;
+        _self.isMobile = config.isMobile;
 
         // Lauch initial calculations
         var outcome = _self.calculateOutcome(_self.adjustments);
@@ -168,6 +179,8 @@ ElectionSimulator.prototype.render = function() {
             template: '#margin-table-template',
             data: _self.getDetails(outcome)
         });
+
+        console.log(document.getElementById("table-totals").offsetWidth);
 
         //Bind watchControl to the ElectionSimulator instance object
         if (_self.interactive) {

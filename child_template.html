@@ -31,56 +31,68 @@
 {% block extra_foot_js %}
 {% raw %}
 <script id="margin-table-template" type="text/ractive">
-<table>
-    <tbody>
-        {{#each rows}}
-        <tr>
-            {{#this}}
-            <td class="{{winnerClass}} {{marginClass}}" data-tooltip="{{margin}}%">
-            {{margin}}%
-            </td>
-            {{/this}}
-            <th>{{@key}}</th>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+    <div class="margin-table-wrapper">
+        <table>
+            <tbody>
+                {{#each rows}}
+                <tr>
+                    {{#this}}
+                    <td class="{{winnerClass}} {{marginClass}}" data-tooltip="{{margin}}%">
+                    {{margin}}%
+                    </td>
+                    {{/this}}
+                    <th>{{@key}}</th>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </script>
 <script id="results-template" type="text/ractive">
-    <div class="gop">
-        {{#electoralVotes}}
-            <p><span class="gop-votes {{#if this.gop > 270}}winner{{/if}}">{{gop}}</span></p>
-        {{/electoralVotes}}
-        <label for="" class="votes">GOP votes</label>
-    </div>
     <div class="dem">
         {{#electoralVotes}}
             <p><span class="dem-votes {{#if this.dem > 270}}winner{{/if}}">{{dem}}</span></p>
         {{/electoralVotes}}
-        <label for="" class="votes">DEM votes</label>
+        <p class="votes">Democratic<br />Party Votes</p>
+    </div>
+    <div class="gop">
+        {{#electoralVotes}}
+            <p><span class="gop-votes {{#if this.gop > 270}}winner{{/if}}">{{gop}}</span></p>
+        {{/electoralVotes}}
+        <p class="votes">Grand Old<br />Party Votes</p>
     </div>
 </script>
 <script id="controls-template" type="text/ractive">
-<div class='table-controls-wrapper{{#unless interactive}} disabled{{/unless}}'>
-    {{#each adjustments}}
-        <h3>{{label}}</h3>
-        <div class="control-group {{@key}}-pct-group">
-            <span class="control-label">margin</span>
-            <span>{{#if pct === 0.0}}{{elseif pct < 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% DEM</span>
-            <input id="{{@key}}-pct" type="range" step="0.01" value="{{this.pct}}" min="-0.10" max="0.10">
-            <span>{{#if pct === 0.0}}{{elseif pct > 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% GOP</span>
-        </div>
-        <div class="control-group  {{@key}}-turnout-group">
-            <span class="control-label">turnout</span>
-            <input id="{{@key}}-turnout" type="range" step="0.01" value="{{this.turnout}}" min="-0.10" max="0.10">
-            <span>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</span>
-    {{/each}}
-</div>
+    <div class='table-controls-wrapper {{#unless interactive}}disabled{{/unless}} {{#if mobile}}mobile{{/if}}'>
+        {{#each adjustments}}
+            <h4>{{label}}</h4>
+            <div class="control-group {{@key}}-pct-group">
+                <span class="control-label">Margin<span class="label-concat">: </span></span>
+                <div class="control-label-mobile">
+                    {{#if this.pct == 0}}
+                        <span class="control-label-mobile">+/- 0%</span>
+                    {{elseif this.pct > 0}}
+                        <span class="gop-slider-label {{#if this.pct > 0}}gop-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct > 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% GOP</span>
+                    {{else}}
+                        <span class="dem-slider-label {{#if this.pct < 0}}dem-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct < 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% DEM</span>
+                    {{/if}}
+                </div>
+                <div class="slider-label label-dem">
+                    <span class="dem-slider-label {{#if this.pct < 0}}dem-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct < 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% DEM</span>
+                </div>
+                <div class="range-slider">
+                    <input id="{{@key}}-pct" type="range" step="0.01" value="{{this.pct}}" min="-0.10" max="0.10">
+                </div>
+                <div class="slider-label label-gop">
+                    <span class="gop-slider-label {{#if this.pct > 0}}gop-margin-winner{{/if}}">{{#if pct === 0.0}}{{elseif pct > 0}}+{{else}}-{{/if}}{{(Math.abs(pct * 100)).toFixed(0)}}% GOP</span>
+                </div>
+            </div>
+            <div class="control-group {{@key}}-turnout-group">
+                <span class="control-label turnout">Turnout: <strong>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</strong></span>
+                <input id="{{@key}}-turnout" type="range" step="0.01" value="{{this.turnout}}" min="-0.10" max="0.10">
+                <!--<span>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</span>-->
+        {{/each}}
+    </div>
 </script>
 {% endraw %}
 {% endblock extra_foot_js%}
-
-
-
-
-
