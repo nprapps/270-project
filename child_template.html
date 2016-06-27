@@ -37,6 +37,7 @@
                 {{#each rows}}
                 <tr>
                     {{#this}}
+                     <th>{{gopPct}}%</th>
                     <td class="{{winnerClass}} {{marginClass}}" data-tooltip="{{margin}}%">
                     {{margin}}%
                     </td>
@@ -90,7 +91,6 @@
             <div class="control-group {{@key}}-turnout-group">
                 <span class="control-label turnout">Turnout: <strong>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</strong></span>
                 <input id="{{@key}}-turnout" type="range" step="0.01" value="{{this.turnout}}" min="-0.10" max="0.10">
-                <!--<span>{{#if turnout > 0}}+{{/if}}{{(turnout * 100).toFixed(0)}}%</span>-->
         {{/each}}
     </div>
 </script>

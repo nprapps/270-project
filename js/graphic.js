@@ -97,8 +97,9 @@ var loadBaseData = function() {
     d3.json(BASE_DATA_URL, function(error, data) {
         baseData = formatData(data);
         urlParams = urlparser.get();
-        console.log(urlParams);
-        UpdateInitVars(urlParams);
+        if (urlParams) {
+            UpdateInitVars(urlParams);
+        }
         createSimulator(baseData);
 
         pymChild = new pym.Child({

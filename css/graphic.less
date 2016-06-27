@@ -154,12 +154,26 @@ table {
         width: 100px;
     }
     input[type=range]::-webkit-slider-runnable-track {
-        background: #ddd;
+
+        background: rgba(0,0,200,1);
+        background: -moz-linear-gradient(left, rgba(0,0,200,1) 0%, rgba(221,221,221,1) 45%, rgba(221,221,221,1) 50%, rgba(221,221,221,1) 55%, rgba(200,0,0,1) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0,0,200,1)), color-stop(45%, rgba(221,221,221,1)), color-stop(50%, rgba(221,221,221,1)), color-stop(55%, rgba(221,221,221,1)), color-stop(100%, rgba(200,0,0,1)));
+        background: -webkit-linear-gradient(left, rgba(0,0,200,1) 0%, rgba(221,221,221,1) 45%, rgba(221,221,221,1) 50%, rgba(221,221,221,1) 55%, rgba(200,0,0,1) 100%);
+        background: -o-linear-gradient(left, rgba(0,0,200,1) 0%, rgba(221,221,221,1) 45%, rgba(221,221,221,1) 50%, rgba(221,221,221,1) 55%, rgba(200,0,0,1) 100%);
+        background: -ms-linear-gradient(left, rgba(0,0,200,1) 0%, rgba(221,221,221,1) 45%, rgba(221,221,221,1) 50%, rgba(221,221,221,1) 55%, rgba(200,0,0,1) 100%);
+        background: linear-gradient(to right, rgba(0,0,200,1) 0%, rgba(221,221,221,1) 45%, rgba(221,221,221,1) 50%, rgba(221,221,221,1) 55%, rgba(200,0,0,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0000c8', endColorstr='#c80000', GradientType=1 );
+
         height: 3px;
         border-radius: 3px;
         border: none;
         &:hover {
             cursor: pointer;
+        }
+    }
+    div[class*="-turnout-group"] {
+        input[type=range]::-webkit-slider-runnable-track {
+            background: #ddd;
         }
     }
     input[type=range]::-webkit-slider-thumb {
@@ -230,9 +244,10 @@ table {
     margin-left: 10px;
 }
 
-@media (min-width: 401px) and (max-width: 540px) {
+@media (min-width: 480px) and (max-width: 550px) {
     .table-controls {
         width: auto;
+        margin-right: 0;
 
         div[class*="-turnout-group"] {
             margin-left: 5px;
@@ -289,7 +304,7 @@ table {
                 text-align: right;
             }
             .control-group {
-                min-width: 208px;
+                min-width: 180px;
             }
         }
 
@@ -304,7 +319,16 @@ table {
     }
 }
 
-@media (max-width: 401px) {
+
+@media (min-width: 380px) and (max-width: 479px) {
+    input[type=range]{
+        -webkit-appearance: none;
+        width: 120px !important;
+    }
+}
+
+
+@media (min-width: 300px) and (max-width: 479px) {
     .mobile {
         &.table-controls-wrapper {
             float: left;

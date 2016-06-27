@@ -59,6 +59,17 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
             adjustedDemPct = (adjustedDemPct > 1) ? 1 : adjustedDemPct;
 
             var adjustedGOPPct = demographic.r_pct + adjustment.pct;
+            if ((adjustment.label == 'Hispanic') && (this.state == 'Florida')) {
+                console.log("Florida GopPerc: ", adjustedGOPPct);
+            }
+
+            if ((adjustment.label == 'White Men') && (this.state == 'Wisconsin')) {
+                console.log("Wisconsin GopPerc: ", adjustedGOPPct);
+            }
+
+            if ((adjustment.label == 'White Men') && (this.state == 'Michigan')) {
+                console.log("Michigan GopPerc: ", adjustedGOPPct);
+            }
             adjustedGOPPct = (adjustedGOPPct < 0) ? 0 : adjustedGOPPct;
             adjustedGOPPct = (adjustedGOPPct > 1) ? 1 : adjustedGOPPct;
 
@@ -109,10 +120,13 @@ ElectionSimulator.prototype.getDetails = function(outcome) {
         var marginPct = Math.abs(row.margin) * 100;
         var winnerClass = (row.margin > 0) ? 'gop' : 'dem';
         var marginClass = 'margin-' + marginPct.toFixed(0);
+        var gopPct = Math.abs(row.gopPct) * 100;
         outcomes[row[key]].push({
             winnerClass: winnerClass,
             marginClass: marginClass,
             margin: marginPct.toFixed(1),
+            // TODO: Remove after
+            gopPct: gopPct.toFixed(1),
             electoralVotes: row.electoralVotes
         });
     });
