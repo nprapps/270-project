@@ -51,16 +51,16 @@ var UpdateInitVars = function(urlParams) {
 
     // Adjustments
     var adj = adjustments.adjustments;
-    adj.white_man.pct = urlParams.wmp || 0.0;
-    adj.white_man.turnout = urlParams.wmt || 0.0;
-    adj.white_woman.pct = urlParams.wwp || 0.0;
-    adj.white_woman.turnout = urlParams.wwt || 0.0;
-    adj.black.pct = urlParams.bp || 0.0;
-    adj.black.turnout = urlParams.bt || 0.0;
-    adj.hispanic.pct = urlParams.hp || 0.0;
-    adj.hispanic.turnout = urlParams.ht || 0.0;
-    adj.other.pct = urlParams.op || 0.0;
-    adj.other.turnout = urlParams.ot || 0.0;
+    adj.white_man.pct = urlParams.margin_white_men || 0.0;
+    adj.white_man.turnout = urlParams.turnout_white_men || 0.0;
+    adj.white_woman.pct = urlParams.margin_white_women || 0.0;
+    adj.white_woman.turnout = urlParams.turnout_white_women || 0.0;
+    adj.black.pct = urlParams.margin_black || 0.0;
+    adj.black.turnout = urlParams.turnout_black || 0.0;
+    adj.hispanic.pct = urlParams.margin_hispanic || 0.0;
+    adj.hispanic.turnout = urlParams.turnout_hispanic || 0.0;
+    adj.other.pct = urlParams.margin_other || 0.0;
+    adj.other.turnout = urlParams.turnout_other || 0.0;
 
     // interactive
     if (urlParams.interactive === false) {

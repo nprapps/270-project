@@ -32,17 +32,6 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
             adjustedDemPct = (adjustedDemPct > 1) ? 1 : adjustedDemPct;
 
             var adjustedGOPPct = demographic.r_pct + adjustment.pct;
-            // if ((adjustment.label == 'Hispanic') && (this.state == 'Florida')) {
-            //     console.log("Florida GopPerc: ", adjustedGOPPct);
-            // }
-
-            // if ((adjustment.label == 'White Men') && (this.state == 'Wisconsin')) {
-            //     console.log("Wisconsin GopPerc: ", adjustedGOPPct);
-            // }
-
-            // if ((adjustment.label == 'White Men') && (this.state == 'Michigan')) {
-            //     console.log("Michigan GopPerc: ", adjustedGOPPct);
-            // }
             adjustedGOPPct = (adjustedGOPPct < 0) ? 0 : adjustedGOPPct;
             adjustedGOPPct = (adjustedGOPPct > 1) ? 1 : adjustedGOPPct;
 
