@@ -4,18 +4,20 @@ var simulator = null;
 var pymChild = null;
 var isMobile = false;
 
+var scenario = null;
+var footer = null;
 var interactive = true;
 var adjustments = {
     'adjustments': {
-        'white_man': {
-            'pct': 0.0,
-            'turnout': 0.0,
-            'label': "White Men"
-        },
         'white_woman': {
             'pct': 0.0,
             'turnout': 0.0,
             'label': "White Women"
+        },
+        'white_man': {
+            'pct': 0.0,
+            'turnout': 0.0,
+            'label': "White Men"
         },
         'black': {
             'pct': 0.0,
@@ -61,6 +63,12 @@ var UpdateInitVars = function(urlParams) {
     adj.hispanic.turnout = urlParams.turnout_hispanic || 0.0;
     adj.other.pct = urlParams.margin_other || 0.0;
     adj.other.turnout = urlParams.turnout_other || 0.0;
+
+    // scenarios
+    scenario = urlParams.scenario;
+
+    // credits
+    footer = urlParams.footer;
 
     // interactive
     if (urlParams.interactive === false) {
@@ -119,7 +127,10 @@ var loadBaseData = function() {
 
 var createSimulator = function(data) {
     //Get the adjustments from the macro parameters
-    simulator = new ElectionSimulator("#table-totals", "#table-details", "#table-controls", adjustments, interactive, data);
+    simulator = new ElectionSimulator("#usage", "#scenarios",
+                                      "#table-totals", "#table-details",
+                                      "#table-controls", "#footer",
+                                      adjustments, interactive, footer, scenario, data, HEADERS);
 }
 
 /*

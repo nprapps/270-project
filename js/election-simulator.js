@@ -1,16 +1,21 @@
-var ElectionSimulator = function(rslt_container, tab_container, ctrl_container, adjustments, interactive, data) {
+var ElectionSimulator = function(usage_container, sce_container, rslt_container, tab_container, ctrl_container, footer_container, adjustments, interactive, footer, scenario, data, headers) {
     var _self = this;
 
+    _self.usage_container = usage_container;
+    _self.sce_container = sce_container;
     _self.rslt_container = rslt_container;
     _self.tab_container = tab_container;
     _self.ctrl_container = ctrl_container;
+    _self.footer_container = footer_container;
     _self.adjustments = adjustments;
     _self.interactive = interactive;
     _self.data = data;
+    _self.footer = footer;
+    _self.scenario = scenario;
+    _self.headers = headers;
     _self.tossUpStates = _.pluck(data, 'state');
     _self.usps_states = _.pluck(data, 'state_usps');
     _self.isMobile = false;
-
 }
 
 
@@ -58,6 +63,34 @@ ElectionSimulator.prototype.calculateOutcome = function(adjustments) {
         processedData.push(processedRow);
     });
     return processedData;
+}
+
+ElectionSimulator.prototype.getScenarios = function() {
+    var _self = this;
+
+    return {
+        scenario: _self.scenario,
+        interactive: _self.interactive,
+        data: _self.headers
+    }
+}
+
+ElectionSimulator.prototype.getUsage = function() {
+    var _self = this;
+
+    return {
+        interactive: _self.interactive,
+        data: _self.headers
+    }
+}
+
+ElectionSimulator.prototype.getFooter = function() {
+    var _self = this;
+
+    return {
+        footer: _self.footer,
+        data: _self.headers
+    }
 }
 
 ElectionSimulator.prototype.getDetails = function(outcome) {
@@ -138,6 +171,18 @@ ElectionSimulator.prototype.render = function(config) {
         // Lauch initial calculations
         var outcome = _self.calculateOutcome(_self.adjustments);
 
+        _self.usageRactive = new Ractive({
+            el: _self.usage_container,
+            template: '#usage-template',
+            data: _self.getUsage()
+        });
+
+        _self.scenariosRactive = new Ractive({
+            el: _self.sce_container,
+            template: '#scenarios-template',
+            data: _self.getScenarios()
+        });
+
         _self.totalsRactive = new Ractive({
             el: _self.rslt_container,
             template: '#results-template',
@@ -154,6 +199,12 @@ ElectionSimulator.prototype.render = function(config) {
             el: _self.tab_container,
             template: '#margin-table-template',
             data: _self.getDetails(outcome)
+        });
+
+        _self.creditsRactive = new Ractive({
+            el: _self.footer_container,
+            template: '#footer-template',
+            data: _self.getFooter()
         });
 
         //Bind watchControl to the ElectionSimulator instance object
