@@ -211,4 +211,16 @@ ElectionSimulator.prototype.render = function(config) {
         if (_self.interactive) {
             _self.controlsRactive.observe('*', _self.watchControl.bind(_self));
         }
+
+        // Reset all sliders to initial position
+        _self.controlsRactive.on({
+            restart: function ( event ) {
+            // do something
+                 _.each(_self.adjustments.adjustments, function(adj) {
+                    adj.pct = 0.00;
+                    adj.turnout = 0.00;
+                });
+                _self.controlsRactive.set({adjustments: _self.adjustments.adjustments});
+            }
+        });
 }

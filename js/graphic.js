@@ -45,12 +45,24 @@ var formatData = function(data) {
     return DATA
 }
 
+function loadJSON(callback) {
+    var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+    xobj.open('GET', BASE_DATA_URL, true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);
+ }
+
 
 /*
  * Update simulator initialization properties based on url params
  */
 var UpdateInitVars = function(urlParams) {
-
     // Adjustments
     var adj = adjustments.adjustments;
     adj.white_man.pct = urlParams.margin_white_men || 0.0;
@@ -66,10 +78,8 @@ var UpdateInitVars = function(urlParams) {
 
     // scenarios
     scenario = urlParams.scenario;
-
     // credits
     footer = urlParams.footer;
-
     // interactive
     if (urlParams.interactive === false) {
         interactive = false;
@@ -81,47 +91,32 @@ var UpdateInitVars = function(urlParams) {
  * Initialize the graphic.
  */
 var onWindowLoaded = function() {
-    if (Modernizr.svg) {
-        // Disable DEBUG mode
-        Ractive.DEBUG = false;
-        loadBaseData()
-    } else {
-        pymChild = new pym.Child({});
-
-        pymChild.onMessage('on-screen', function(bucket) {
-            ANALYTICS.trackEvent('on-screen', bucket);
-        });
-        pymChild.onMessage('scroll-depth', function(data) {
-            data = JSON.parse(data);
-            ANALYTICS.trackEvent('scroll-depth', data.percent, data.seconds);
-        });
-    }
+    Ractive.DEBUG = false;
+    loadJSON(function(response) {
+        // Parse JSON string into object
+        var data = JSON.parse(response);
+        init(data);
+    });
 }
 
+var init = function(data) {
+    baseData = formatData(data);
+    urlParams = urlparser.get();
+    if (urlParams) {
+        UpdateInitVars(urlParams);
+    }
+    createSimulator(baseData);
 
-/*
- * Load graphic data from a CSV.
- */
-var loadBaseData = function() {
-    d3.json(BASE_DATA_URL, function(error, data) {
-        baseData = formatData(data);
-        urlParams = urlparser.get();
-        if (urlParams) {
-            UpdateInitVars(urlParams);
-        }
-        createSimulator(baseData);
+    pymChild = new pym.Child({
+        renderCallback: render
+    });
 
-        pymChild = new pym.Child({
-            renderCallback: render
-        });
-
-        pymChild.onMessage('on-screen', function(bucket) {
-            ANALYTICS.trackEvent('on-screen', bucket);
-        });
-        pymChild.onMessage('scroll-depth', function(data) {
-            data = JSON.parse(data);
-            ANALYTICS.trackEvent('scroll-depth', data.percent, data.seconds);
-        });
+    pymChild.onMessage('on-screen', function(bucket) {
+        ANALYTICS.trackEvent('on-screen', bucket);
+    });
+    pymChild.onMessage('scroll-depth', function(data) {
+        data = JSON.parse(data);
+        ANALYTICS.trackEvent('scroll-depth', data.percent, data.seconds);
     });
 }
 
