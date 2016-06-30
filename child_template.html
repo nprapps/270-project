@@ -50,7 +50,7 @@
 
 <script id="margin-table-template" type="text/ractive">
     <div class="margin-table-wrapper">
-        <h3>Who Wins (And By How Much):</h3>
+        <h3>Who Wins (And By How Much)</h3>
         <table>
             <tbody>
                 {{#each rows}}
@@ -83,7 +83,8 @@
 </script>
 <script id="controls-template" type="text/ractive">
     <div class='table-controls-wrapper {{#unless interactive}}disabled{{/unless}} {{#if mobile}}mobile{{/if}}'>
-        <h3>What Changes (Compared With&nbsp;2012):</h3>
+        <h3>What Changes</h3>
+        <h5>Percentage point difference from&nbsp;2012</h5>
         {{#each adjustments}}
         <div class="{{@key}}-controls-div {{#if pct !== 0.0 || turnout !== 0.0}} adjusted{{/if}}">
             <h4>{{label}}</h4>
